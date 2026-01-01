@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Gruffalo Interactive</title>
+    <style>
+        body { font-family: 'Georgia', serif; text-align: center; background-color: #1a2a1a; color: #fdf5e6; padding: 20px; }
+        .card { background: #2d4a2d; padding: 30px; border-radius: 20px; max-width: 500px; margin: auto; border: 3px solid #8b4513; }
+        h1 { color: #ffd700; }
+        audio { width: 100%; margin-top: 20px; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-top: 20px; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 10px; }
+        .game-box { background: #3e613e; padding: 20px; border-radius: 10px; margin-top: 20px; border: 1px dashed #ffd700; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1 id="title">The Gruffalo</h1>
+        <p id="desc">Scan a tag to begin the magic!</p>
+        <div id="content"></div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const mode = params.get('mode');
+        const title = document.getElementById('title');
+        const desc = document.getElementById('desc');
+        const content = document.getElementById('content');
+
+        if (mode === 'story') {
+            title.innerText = "Full Audio Story";
+            desc.innerText = "Narrated by Alan Mandel";
+            content.innerHTML = `<audio controls autoplay src="gruffalo.mp3"></audio>`;
+        } 
+        else if (mode === 'game') {
+            title.innerText = "Find & Seek!";
+            const items = ["A Log-pile House", "A Roasted Fox", "The Gruffalo's Knobbly Knees", "A Poisonous Wart", "The Little Brown Mouse"];
+            const randomItem = items[Math.floor(Math.random() * items.length)];
+            desc.innerText = "Can you find this in the book?";
+            content.innerHTML = `<div class="game-box"><h3>🔍 Look for:</h3><h2>${randomItem}</h2><p>Tap the tag again for a new challenge!</p></div>`;
+        }
+        else if (mode === 'video') {
+            title.innerText = "Watch the Story";
+            desc.innerText = "Enjoy the animated adventure!";
+            content.innerHTML = `<div class="video-container"><iframe src="https://www.youtube.com/embed/Aa1Vp76Jxrk" frameborder="0" allowfullscreen></iframe></div>`;
+        }
+    </script>
+</body>
+</html>
